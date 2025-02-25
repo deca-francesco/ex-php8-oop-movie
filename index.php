@@ -1,89 +1,9 @@
 <?php
 
-class Genre
-{
-    // attributi
-    public $generiArray = [];
+require_once "./Models/Genre.php";
+require_once "./Models/Movie.php";
+require_once "./db.php";
 
-    // Costruttore
-    function __construct($_generi)
-    {
-        // se il parametro passato è un array lo sovrascrivo all'array vuoto
-        if (is_array($_generi)) {
-            $this->generiArray = $_generi;
-        } else {
-            // altrimenti lo aggiungo direttamente all'array vuoto
-            $this->generiArray[] = $_generi;
-        }
-    }
-
-    // Metodo per aggiungere un genere
-    public function addGenres($_generi)
-    {
-        // se il parametro passato è un array lo unisco all'array già esistente
-        if (is_array($_generi)) {
-            $this->generiArray = array_merge($this->generiArray, $_generi);
-        } else {
-            // altrimenti lo aggiungo direttamente all'array già esistente
-            $this->generiArray[] = $_generi;
-        }
-    }
-}
-
-
-
-class Movie
-{
-    // attributi
-    public $titolo;
-    public $regia;
-    public $anno;
-    public $durata;
-    public $genere;
-
-    // costruttore
-    function __construct($_titolo, $_regia, $_anno, $_durata, Genre $_genere)
-    {
-        $this->titolo = $_titolo;
-        $this->regia = $_regia;
-        $this->anno = $_anno;
-        $this->durata = $_durata;
-        $this->genere = $_genere;
-    }
-
-    // metodi
-
-    // restituisce i dati del film
-    public function getInfo()
-    {
-        // Accedo all'array di generi e converto in stringa separati da virgola
-        $generiString = implode(", ", $this->genere->generiArray);
-
-        // Restituisco una stringa
-        return "Titolo: $this->titolo<br> Regia: $this->regia<br> Anno: $this->anno<br> Durata: $this->durata minuti<br> Genere: $generiString.<br>";
-    }
-
-    // calcola quanti anni ha il film
-    public function getAge()
-    {
-        $currentYear = date("Y");
-        return $currentYear - $this->anno;
-    }
-}
-
-
-// istanze
-$theMask = new Movie("The Mask", "Chuck Russell", 1994, 101, new Genre(["Azione", "Commedia"]));
-$pallottoleCinesi = new Movie("Pallottole Cinesi", "Tom Dey", 2000, 110, new Genre(["Azione", "Commedia", "Western"]));
-$djangoUnchained = new Movie("Django Unchained", "Quentin Tarantino", 2012, 165, new Genre(["Western", "Drammatico"]));
-$laMummia = new Movie("La Mummia", "Stephen Sommers", 1999, 124, new Genre(["Azione", "Fantasy"]));
-$piratiDeiCaraibi = new Movie("Pirati dei Caraibi: La maledizione della prima luna", "Gore Verbinski", 2003, 143, new Genre(["Avventura", "Azione", "Fantasy"]));
-
-// array di istanze
-$movies_array = [$theMask, $pallottoleCinesi, $djangoUnchained, $laMummia, $piratiDeiCaraibi];
-
-
-// var_dump($movies_array)
 
 ?>
 
@@ -117,28 +37,33 @@ $movies_array = [$theMask, $pallottoleCinesi, $djangoUnchained, $laMummia, $pira
         crossorigin="anonymous" defer></script>
 </head>
 
-<body>
-    <header>
+<body class="bg-secondary">
+    <header class="bg-dark text-white py-2">
         <div class="container">
             <h1>PHP Movies</h1>
         </div>
     </header>
-    <main>
-
+    <main class="my-5">
         <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
 
-            <div class="row row-cols-2 g-4">
-                <?php
-
-                // stampo in pagina
-                foreach ($movies_array as $movie) {
-                    echo "<div class='col'>";
-                    echo $movie->getInfo();
-                    echo " Quest'anno ha {$movie->getAge()} anni";
-                    echo "</div>";
-                }
-
-                ?>
+                <?php foreach ($movies_array as $movie) { ?>
+                    <div class='col'>
+                        <div class='card h-100'>
+                            <div class="card_top">
+                                <img src='<?php echo $movie->poster ?>' alt='<?php echo $movie->titolo ?>' class="card-img-top">
+                            </div>
+                            <div class=" card_bottom p-3">
+                                <h4> <?php echo $movie->titolo ?> </h4>
+                                <div>Anno: <?php echo $movie->anno ?> </div>
+                                <div>Regia: <?php echo $movie->regia ?> </div>
+                                <div>Durata: <?php echo $movie->durata ?>' </div>
+                                <!-- prendo l'array dei generi e lo implodo (tipo split in js) -->
+                                <div>Genere: <?php echo implode("/", $movie->genere->getGenres()) ?> </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
 
             </div>
         </div>
