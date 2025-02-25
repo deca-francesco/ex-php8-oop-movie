@@ -1,5 +1,9 @@
 <?php
 
+
+
+
+
 class Movie
 {
     // attributi
@@ -95,6 +99,7 @@ $movies_array = [$theMask, $pallottoleCinesi, $djangoUnchained, $laMummia, $pira
                 foreach ($movies_array as $movie) {
                     echo "<div class='col'>";
                     echo $movie->getInfo();
+                    echo " Quest'anno ha {$movie->getAge()} anni";
                     echo "</div>";
                 }
 
