@@ -1,6 +1,34 @@
 <?php
 
+class Genre
+{
+    // attributi
+    public $generiArray = [];
 
+    // Costruttore
+    function __construct($_generi)
+    {
+        // se il parametro passato è un array lo sovrascrivo all'array vuoto
+        if (is_array($_generi)) {
+            $this->generiArray = $_generi;
+        } else {
+            // altrimenti lo aggiungo direttamente all'array vuoto
+            $this->generiArray[] = $_generi;
+        }
+    }
+
+    // Metodo per aggiungere un genere
+    public function addGenres($_generi)
+    {
+        // se il parametro passato è un array lo unisco all'array già esistente
+        if (is_array($_generi)) {
+            $this->generiArray = array_merge($this->generiArray, $_generi);
+        } else {
+            // altrimenti lo aggiungo direttamente all'array già esistente
+            $this->generiArray[] = $_generi;
+        }
+    }
+}
 
 
 
@@ -14,7 +42,7 @@ class Movie
     public $genere;
 
     // costruttore
-    function __construct($_titolo, $_regia, $_anno, $_durata, $_genere)
+    function __construct($_titolo, $_regia, $_anno, $_durata, Genre $_genere)
     {
         $this->titolo = $_titolo;
         $this->regia = $_regia;
@@ -28,7 +56,11 @@ class Movie
     // restituisce i dati del film
     public function getInfo()
     {
-        return "Titolo: $this->titolo, Regia: $this->regia, Anno: $this->anno, Durata: $this->durata minuti, Genere: $this->genere.";
+        // Accedo all'array di generi e converto in stringa separati da virgola
+        $generiString = implode(", ", $this->genere->generiArray);
+
+        // Restituisco una stringa
+        return "Titolo: $this->titolo<br> Regia: $this->regia<br> Anno: $this->anno<br> Durata: $this->durata minuti<br> Genere: $generiString.<br>";
     }
 
     // calcola quanti anni ha il film
@@ -41,14 +73,17 @@ class Movie
 
 
 // istanze
-$theMask = new Movie("The Mask", "Chuck Russell", 1994, 101, "Azione/Commedia");
-$pallottoleCinesi = new Movie("Pallottole Cinesi", "Tom Dey", 2000, 110, "Azione/Western");
-$djangoUnchained = new Movie("Django Unchained", "Quentin Tarantino", 2012, 165, "Western/Drammatico");
-$laMummia = new Movie("La Mummia", "Stephen Sommers", 1999, 124, "Azione/Fantasy");
-$piratiDeiCaraibi = new Movie("Pirati dei Caraibi: La maledizione della prima luna", "Gore Verbinski", 2003, 143, "Avventura/Azione/Fantasy");
+$theMask = new Movie("The Mask", "Chuck Russell", 1994, 101, new Genre(["Azione", "Commedia"]));
+$pallottoleCinesi = new Movie("Pallottole Cinesi", "Tom Dey", 2000, 110, new Genre(["Azione", "Commedia", "Western"]));
+$djangoUnchained = new Movie("Django Unchained", "Quentin Tarantino", 2012, 165, new Genre(["Western", "Drammatico"]));
+$laMummia = new Movie("La Mummia", "Stephen Sommers", 1999, 124, new Genre(["Azione", "Fantasy"]));
+$piratiDeiCaraibi = new Movie("Pirati dei Caraibi: La maledizione della prima luna", "Gore Verbinski", 2003, 143, new Genre(["Avventura", "Azione", "Fantasy"]));
 
 // array di istanze
 $movies_array = [$theMask, $pallottoleCinesi, $djangoUnchained, $laMummia, $piratiDeiCaraibi];
+
+
+// var_dump($movies_array)
 
 ?>
 
