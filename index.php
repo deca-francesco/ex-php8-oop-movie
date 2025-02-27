@@ -41,6 +41,18 @@ require_once "./db.php";
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
         crossorigin="anonymous" defer></script>
+
+    <style>
+        @media (min-width: 768px) {
+            .poster {
+                max-width: 400px;
+            }
+
+            .card_bottom {
+                width: 50%;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-secondary">
@@ -56,18 +68,18 @@ require_once "./db.php";
                 <?php foreach ($movies_array as $movie) { ?>
                     <div class='col'>
                         <div class='card'>
-                            <div class="card-body d-flex">
-                                <div class="w-50">
-                                    <img src='<?php echo $movie->poster ?>' alt='<?php echo $movie->title ?>' class="img-fluid">
+                            <div class="card-body d-flex flex-column flex-md-row">
+                                <div class="me-md-5">
+                                    <img src='<?php echo $movie->poster ?>' alt='<?php echo $movie->title ?>' class="img-fluid mb-3 mb-md-0 poster">
                                 </div>
-                                <div class="w-50">
-                                    <h4 class="card-title"> <?php echo $movie->title ?> </h4>
-                                    <p><strong>Anno: </strong><?php echo $movie->year ?> </p>
+                                <div class="card_bottom">
+                                    <h4> <?php echo $movie->title ?> </h4> <!-- le graffe servono a far capire che è un metodo -->
+                                    <p><strong>Anno: </strong><?php echo $movie->year ?> <?php echo "<span>({$movie->getAge()} anni fa)</span>" ?> </p>
                                     <p><strong>Regia: </strong><?php echo $movie->getDirector() ?> </p>
                                     <p><strong>Durata: </strong><?php echo $movie->length ?>' </p>
                                     <p><strong>Genere: </strong><?php echo $movie->getGenreName() ?> </p>
-                                    <p><strong>Descrizione genere: </strong><?php echo $movie->getGenreDescription() ?> </p>
-                                    <p><strong>Sinossi: </strong><?php echo $movie->description ?> </p>
+                                    <p class="d-none d-lg-block"><strong>Descrizione genere: </strong><?php echo $movie->getGenreDescription() ?> </p>
+                                    <p class="d-none d-lg-block"><strong>Sinossi: </strong><?php echo $movie->description ?> </p>
                                 </div>
                             </div>
                         </div>
