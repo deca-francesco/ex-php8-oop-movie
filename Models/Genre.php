@@ -3,36 +3,24 @@
 class Genre
 {
     // attributi
-    public $generiArray = [];
+    protected $name;
+    protected $description;
 
     // Costruttore
-    function __construct($_generi)
+    public function __construct($_name, $_description)
     {
-        // se il parametro passato è un array lo sovrascrivo all'array vuoto
-        if (is_array($_generi)) {
-            $this->generiArray = $_generi;
-        } else {
-            // altrimenti lo aggiungo direttamente all'array vuoto
-            $this->generiArray[] = $_generi;
-        }
+        $this->name = $_name;
+        $this->description = $_description;
     }
 
     // Metodo per visualizzare i generi
-    public function getGenres()
+    public function getName()
     {
-        return $this->generiArray;
+        return $this->name;
     }
 
-
-    // Metodo per aggiungere un genere
-    public function addGenres($_generi)
+    public function getDescription()
     {
-        // se il parametro passato è un array lo unisco all'array già esistente
-        if (is_array($_generi)) {
-            $this->generiArray = array_merge($this->generiArray, $_generi);
-        } else {
-            // altrimenti lo aggiungo direttamente all'array già esistente
-            $this->generiArray[] = $_generi;
-        }
+        return $this->description;
     }
 }

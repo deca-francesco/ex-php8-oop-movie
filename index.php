@@ -1,7 +1,13 @@
 <?php
 
+// traits
+require_once "./Traits/HasDirector.php";
+
+// classi
 require_once "./Models/Genre.php";
 require_once "./Models/Movie.php";
+
+// istanze
 require_once "./db.php";
 
 
@@ -45,21 +51,24 @@ require_once "./db.php";
     </header>
     <main class="my-5">
         <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            <div class="row row-cols-1 g-4">
 
                 <?php foreach ($movies_array as $movie) { ?>
                     <div class='col'>
-                        <div class='card h-100'>
-                            <div class="card_top">
-                                <img src='<?php echo $movie->poster ?>' alt='<?php echo $movie->titolo ?>' class="card-img-top">
-                            </div>
-                            <div class=" card_bottom p-3">
-                                <h4> <?php echo $movie->titolo ?> </h4>
-                                <div>Anno: <?php echo $movie->anno ?> </div>
-                                <div>Regia: <?php echo $movie->regia ?> </div>
-                                <div>Durata: <?php echo $movie->durata ?>' </div>
-                                <!-- prendo l'array dei generi e lo implodo (tipo split in js) -->
-                                <div>Genere: <?php echo implode("/", $movie->genere->getGenres()) ?> </div>
+                        <div class='card'>
+                            <div class="card-body d-flex">
+                                <div class="w-50">
+                                    <img src='<?php echo $movie->poster ?>' alt='<?php echo $movie->title ?>' class="img-fluid">
+                                </div>
+                                <div class="w-50">
+                                    <h4 class="card-title"> <?php echo $movie->title ?> </h4>
+                                    <p><strong>Anno: </strong><?php echo $movie->year ?> </p>
+                                    <p><strong>Regia: </strong><?php echo $movie->getDirector() ?> </p>
+                                    <p><strong>Durata: </strong><?php echo $movie->length ?>' </p>
+                                    <p><strong>Genere: </strong><?php echo $movie->getGenreName() ?> </p>
+                                    <p><strong>Descrizione genere: </strong><?php echo $movie->getGenreDescription() ?> </p>
+                                    <p><strong>Sinossi: </strong><?php echo $movie->description ?> </p>
+                                </div>
                             </div>
                         </div>
                     </div>

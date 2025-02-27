@@ -3,21 +3,24 @@
 class Movie
 {
     // attributi
-    public $titolo;
-    public $regia;
-    public $anno;
-    public $durata;
-    public $genere;
+    public $title;
+    public $year;
+    public $length;
+    protected Genre $genre;
     public $poster;
+    public $description;
+
+    // trait
+    use HasDirector;
+
 
     // costruttore
-    function __construct($_titolo, $_regia, $_anno, $_durata, Genre $_genere, $_poster)
+    public function __construct($_title, $_year, $_length, Genre $_genre, $_poster)
     {
-        $this->titolo = $_titolo;
-        $this->regia = $_regia;
-        $this->anno = $_anno;
-        $this->durata = $_durata;
-        $this->genere = $_genere;
+        $this->title = $_title;
+        $this->year = $_year;
+        $this->length = $_length;
+        $this->genre = $_genre;
         $this->poster = $_poster;
     }
 
@@ -26,17 +29,26 @@ class Movie
     // restituisce i dati del film
     public function getInfo()
     {
-        // Accedo all'array di generi e converto in stringa separati da virgola
-        $generiString = implode(", ", $this->genere->generiArray);
+        $genres = $this->genre->getName();
 
         // Restituisco una stringa con tutto
-        return "Titolo: $this->titolo<br> Regia: $this->regia<br> Anno: $this->anno<br> Durata: $this->durata minuti<br> Genere: $generiString.<br> Poster url: $this->poster<br>";
+        return "Titolo: $this->title<br> Anno: $this->year<br> Durata: $this->length minuti<br> Genere: $genres.<br> Poster url: $this->poster<br>";
+    }
+
+    public function getGenreName()
+    {
+        return $this->genre->getName();
+    }
+
+    public function getGenreDescription()
+    {
+        return $this->genre->getDescription();
     }
 
     // calcola quanti anni ha il film
     public function getAge()
     {
         $currentYear = date("Y");
-        return $currentYear - $this->anno;
+        return $currentYear - $this->year;
     }
 }
